@@ -8,7 +8,10 @@ git fetch
 ###Update the current branch:
 git pull
 
-###Create a new branch from master:
+###Checkout an existing branch:
+git checkout branch-name 
+
+###Create a new branch:
 git checkout -b branch-name
 
 ###Commit your changes:
