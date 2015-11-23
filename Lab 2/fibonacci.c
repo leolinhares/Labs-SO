@@ -19,7 +19,7 @@ long double * fibonacci(long double final){
         second = next;
         fibArray[counter+2] = next;
     }
-    return array_fib;
+    return fibArray;
 }
 
 int main(){
