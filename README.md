@@ -1,6 +1,6 @@
-# Labs-SO
+# Labs-SO Workflow
 
-Workflow
+Each lab has its own branch. The idea is to checkout that branch and work on it. When the work is completed, the branch is merged into master. Hence there will be no need for many repositories, one for each lab.
 
 ###Get all branches:
 git fetch
@@ -8,7 +8,10 @@ git fetch
 ###Update the current branch:
 git pull
 
-###Create a new branch from master:
+###Checkout an existing branch:
+git checkout branch-name 
+
+###Create a new branch:
 git checkout -b branch-name
 
 ###Commit your changes:
