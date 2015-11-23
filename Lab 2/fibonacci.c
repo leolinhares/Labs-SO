@@ -12,7 +12,6 @@ long double fib(long double k){
 
 int main(){
 
-    long double *p;
     int initial, final;
     int i;
 
@@ -25,13 +24,8 @@ int main(){
 
     long double array_size = final-initial+1;
     long double *array_fib = (long double *) malloc(array_size*(sizeof(long double)));
-
-
-    for(i=initial;i<=final;i++){
-      array_fib[i] = -2;
-    }
-
     int aux = 0;
+
     for(i=initial;i<=final;i++){
       pid_t pID = fork();
 
@@ -40,15 +34,12 @@ int main(){
       }
       else if(pID == 0){ //Child Process
         array_fib[aux] = fib(i-1);
-        printf("Filho disse q fib %d eh -> %.0Lf\n",aux,array_fib[aux]);
+        printf("Filho %d disse que o fib %d eh -> %.0Lf\n",getpid(),i,array_fib[aux]);
         aux++;
         exit(0);
       }
       else{
         wait(0);
       }
-    }
-    for(i=initial;i<=final;i++){
-      printf("%.0Lf\n",array_fib[i]);
     }
 }
