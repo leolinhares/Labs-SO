@@ -2,53 +2,44 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <sys/types.h>
+#include <math.h>
 
-#define FIB_QUANTITY 60
 
-long double * fibonacci(long double final){
-
-    long double first = 0, second = 1;
-    long double *fibArray = (long double *) malloc(final*(sizeof(long double)));
-    fibArray[0] = first;
-    fibArray[1] = second;
-
-    for (int counter = first; counter <= final; counter++) {
-
-        long double next =  first + second;
-        first = second;
-        second = next;
-        fibArray[counter+2] = next;
-    }
-    return fibArray;
+/* Calculates the k th fibonacci term */
+long double fib(long double k){
+    return (1/sqrt(5))*( pow(((1+sqrt(5))/2),k) - pow(((1-sqrt(5))/2),k));
 }
 
 int main(){
 
-    long double *p;
-    long double initial, final;
+    int initial, final;
+    int i;
 
     printf("Type two numbers (starting from 1) separated by a space: ");
-    scanf("%Lf %Lf", &initial, &final);
-
-    pid_t pID = fork();
-
-    if(pID<0){
-      perror("Fail\n");
+    scanf("%d %d", &initial, &final);
+    while(initial<0 || final<0){
+      printf("Invalid Input. Try again!\n");
+      scanf("%d %d", &initial, &final);
     }
-    else if(pID == 0){ //Child Process
-      printf("\nChild Process!\n");
-      printf("Type two numbers (from %.0Lf to %.0Lf) separated by a space: ",initial,final);
-      scanf("%Lf %Lf", &initial, &final);
-      p = fibonacci(final+1);
-      for (int i = initial-1; i < final; i++) {
-          printf("Element %d - %.0Lf\n", i+1, p[i]);
+
+    long double array_size = final-initial+1;
+    long double *array_fib = (long double *) malloc(array_size*(sizeof(long double)));
+    int aux = 0;
+
+    for(i=initial;i<=final;i++){
+      pid_t pID = fork();
+
+      if(pID<0){
+        printf("Fail\n");
       }
-    }
-    else{
-      wait(NULL);
-      p = fibonacci(final+1);
-      for (int i = initial-1; i < final; i++) {
-          printf("Element %d - %.0Lf\n", i+1, p[i]);
+      else if(pID == 0){ //Child Process
+        array_fib[aux] = fib(i-1);
+        printf("Filho %d disse que o fib %d eh -> %.0Lf\n",getpid(),i,array_fib[aux]);
+        aux++;
+        exit(0);
+      }
+      else{
+        wait(0);
       }
     }
 }
