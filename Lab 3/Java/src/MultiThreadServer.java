@@ -1,30 +1,28 @@
 import java.io.IOException;
-import java.io.PrintStream;
+import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
 public class MultiThreadServer implements Runnable {
-    Socket csocket;
-    MultiThreadServer(Socket csocket) {
-        this.csocket = csocket;
+    Socket client;
+    MultiThreadServer(Socket client) {
+        this.client = client;
     }
 
     public static void main(String args[])
             throws Exception {
-        ServerSocket ssock = new ServerSocket(4444);
-        System.out.println("Listening");
+        ServerSocket sock = new ServerSocket(6013);
+
         while (true) {
-            System.out.println("entrei");
-            Socket sock = ssock.accept();
-            System.out.println("Connected");
-            new Thread(new MultiThreadServer(sock)).start();
+            Socket client = sock.accept();
+            new Thread(new MultiThreadServer(client)).start();
         }
     }
     public void run() {
         try {
-            System.out.println("thread");
-
-            csocket.close();
+            PrintWriter pout = new PrintWriter(client.getOutputStream(), true);
+            pout.println(new java.util.Date().toString());
+            client.close();
         }
         catch (IOException e) {
             System.out.println(e);
