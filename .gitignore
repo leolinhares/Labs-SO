@@ -34,5 +34,6 @@
 *.dSYM/
 
 *.idea/
+/Lab 2/fib
 *.iml
 
