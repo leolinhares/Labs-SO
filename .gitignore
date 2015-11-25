@@ -34,4 +34,5 @@
 *.dSYM/
 
 *.idea/
+*.iml
 
